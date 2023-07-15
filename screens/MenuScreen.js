@@ -12,7 +12,6 @@ import {SliderBox} from 'react-native-image-slider-box';
 
 const MenuScreen = ({navigation,route}) => {
   const item = route.params.item;
-  console.log(item.photos);
   const [isAdded, setIsAdded] = useState(false);
   const [addFav, setAddFav] = useState(false);
 

@@ -23,6 +23,9 @@ import { useSelector } from 'react-redux';
 import auth from '@react-native-firebase/auth';
 import { useState } from 'react';
 import FavouritesList from '../screens/FavouritesList';
+import PaymentScreen from '../screens/PaymentScreen';
+
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -250,6 +253,22 @@ const CartNavigator = () => {
           }
         }
       />
+      <Stack.Screen
+        name="PaymentScreen"
+        component={PaymentScreen}
+        options={
+          {
+            title: 'Payment Screen',
+            headerLeft: () => null,
+            headerTitleAlign: 'center',
+          }
+        }
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfile}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
@@ -279,12 +298,20 @@ const ProfileStackNavigator = () => {
       <Stack.Screen
         name="ProductList"
         component={ProductList}
-        options={{headerShown: false}}
+        options={{
+          title: 'Items Listed',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
       />
       <Stack.Screen
         name="FavouritesList"
         component={FavouritesList}
-        options={{headerShown: false}}
+        options={{
+          title: 'Favourites',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
       />
     </Stack.Navigator>
   );

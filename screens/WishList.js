@@ -10,7 +10,7 @@ import auth from '@react-native-firebase/auth';
 import { useEffect } from 'react';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-const WishList = () => {
+const WishList = ({navigation}) => {
   const [cartValue, setCartValue] = useState(0);
   const [items, setItems] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -112,7 +112,7 @@ const WishList = () => {
       <Text style={{fontSize:17,color:'grey',fontWeight:'700'}}>Total: ₹{cartValue}</Text>
       </View>
       <View style={{paddingLeft:30,paddingBottom:60}}>
-      <TouchableOpacity style={styles.addToCart}>
+      <TouchableOpacity style={styles.addToCart} onPress={()=>navigation.navigate('PaymentScreen')}>
         <Text style={{color:'white',fontWeight:'700'}}>{"Proceed To CheckOut ->"}</Text>
      </TouchableOpacity>
       </View>

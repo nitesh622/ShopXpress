@@ -2,6 +2,7 @@ import { StyleSheet, Text, View,TouchableOpacity ,ImageBackground,TextInput, Per
 import React, { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import  MaterialCommunityIcons  from 'react-native-vector-icons/MaterialCommunityIcons';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -16,10 +17,12 @@ const EditProfile = ({navigation, route}) => {
     name: oldData.name,
     phoneNo: oldData.phoneNo,
     pincode: oldData.pincode,
+    locality: oldData.locality,
     city: oldData.city,
     state: oldData.state,
     photo: oldData.photo,
   });
+  const [pPhoto, setPPhoto] = useState(oldData.photo);
 
   const openGallery = async () => {
     ImagePicker.openPicker({
@@ -30,6 +33,7 @@ const EditProfile = ({navigation, route}) => {
     .then(
       (res) => {
         setNewData({...newData, photo: res.path});
+        setPPhoto(res.path);
       }
     )
     .catch(err => console.log(err));
@@ -42,6 +46,7 @@ const EditProfile = ({navigation, route}) => {
       if(newData.name == oldData.name) delete newData.name;
       if(newData.phoneNo == oldData.phoneNo) delete newData.phoneNo;
       if(newData.pincode == oldData.pincode) delete newData.pincode;
+      if(newData.locality == oldData.locality) delete newData.locality;
       if(newData.city == oldData.city) delete newData.city;
       if(newData.state == oldData.state) delete newData.state;
       
@@ -87,9 +92,9 @@ const EditProfile = ({navigation, route}) => {
             }}>
               <ImageBackground
               source={
-                newData.photo == '' 
+                pPhoto == '' 
                 ? require('../assets/profile.png')
-                : {uri: newData.photo}
+                : {uri: pPhoto}
               }
               style={{height:100,width:100}}
               imageStyle={{borderRadius:20}}
@@ -131,7 +136,7 @@ const EditProfile = ({navigation, route}) => {
         </View>
 
         <View style={styles.action}> 
-          <FontAwesome name='mobile-phone' size={25} />
+          <FontAwesome name='mobile-phone' size={30} />
           <TextInput
             placeholder='Phone Number'
             keyboardType='number-pad'
@@ -161,7 +166,20 @@ const EditProfile = ({navigation, route}) => {
         </View>
 
         <View style={styles.action}> 
-          <MaterialCommunityIcons name='city' size={25}/>
+        <FontAwesome name='home' size={25} />
+          <TextInput
+            placeholder='Locality'
+            placeholderTextColor={'#666666'}
+            style={styles.textInput}
+            autoCorrect={false}
+            value={newData.locality}
+            onChangeText={text => setNewData({...newData, locality: text})}
+          >
+          </TextInput>
+        </View>
+
+        <View style={styles.action}> 
+          <FontAwesome5 name='city' size={20}/>
           <TextInput
             placeholder='City'
             placeholderTextColor={'#666666'}

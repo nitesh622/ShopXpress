@@ -72,7 +72,7 @@ const MenuItem = ({ item }) => {
             <Pressable onPress={() => {addToFav()}}>
               {addFav
                 ? <Icon name="heart" style={{ position: "absolute", right: 10, top: 10 }} color="red" size={24} />
-                : <Icon name="hearto" style={{ position: "absolute", right: 10, top: 10 }} color="white" size={24} />
+                : <Icon name="heart" style={{ position: "absolute", right: 10, top: 10 }} color='#9DB2BF' size={24} />
               }
             </Pressable>
           </ImageBackground>
