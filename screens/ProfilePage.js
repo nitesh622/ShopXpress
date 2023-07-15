@@ -1,0 +1,284 @@
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+  ScrollView,
+  RefreshControl
+} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {Avatar, Title, Caption} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import auth from '@react-native-firebase/auth';
+import {StackActions, useNavigation} from '@react-navigation/native';
+import {MyTabs} from '../navigation/BottomNavigation';
+import user from '../data/Schema/userSchema';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+
+const ProfilePage = () => {
+  const navigation = useNavigation();
+  const [userInfo, setUserInfo] = useState(user);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleLogout = async () => {
+    // try {
+    //   await auth().signOut();
+    //   // navigation.goBack();
+    //   // await MyTabs();
+    //   // navigation.navigate('OnboardingScreenNavigtion');
+    //   // navigation.dispatch(StackActions.replace('OnboardingScreenNavigation'));
+    // }
+    // catch(err) {
+    //   console.log(err);
+    // }
+
+    try {
+      await auth().signOut();
+      await GoogleSignin.signOut();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   // 
+  // }, [])
+
+  useEffect(()=>{
+    getDatabase();
+    GoogleSignin.configure(
+        {
+            offlineAccess: false,
+            webClientId : '615140932127-lqmpvj5579a6ojubhd3a8v1egj0bdcc9.apps.googleusercontent.com',
+            scopes: ['profile', 'email'],
+        }
+    );
+}, [])
+
+  const getDatabase = async () => {
+    try {
+      const currUser  = auth().currentUser;
+      const data = await firestore().collection('users').doc(currUser.uid).get();
+      setUserInfo(data._data);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    getDatabase();
+    setIsRefreshing(false);
+  }
+
+  function EditProfileHandler() {
+    navigation.navigate('EditProfile', {userInfo: userInfo});
+  }
+  function EditFormListHandler() {
+    navigation.navigate('FormList', {userData: userInfo});
+  }
+  function EditProductListHandler() {
+    navigation.navigate('ProductList');
+  }
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView 
+        refreshControl={
+          <RefreshControl
+            refreshing = {isRefreshing}
+            onRefresh={() => handleRefresh()} 
+          />
+        }
+      >
+        <View style={styles.userInfoSectionOne}>
+          <View
+            style={[
+              {flexDirection: 'row', marginTop: 16},
+              styles.backgroundStyle,
+            ]}>
+            <Avatar.Image
+              source={
+                (userInfo.photo == '') 
+                ? require('../assets/profile.png')
+                : {uri: userInfo.photo}
+              }
+              size={80}
+            />
+            <View style={{marginLeft: 20}}>
+              <Title
+                style={[
+                  styles.title,
+                  {
+                    marginTop: 16,
+                    marginBottom: 5,
+                  },
+                ]}>
+                {userInfo.name}
+              </Title>
+              <Caption style={styles.caption}>{userInfo.email}</Caption>
+            </View>
+          </View>
+        </View>
+        <View style={[styles.userInfoSectionTwo, styles.backgroundStyle]}>
+          <View style={styles.row}>
+            <Text>
+              <Icon name="location-pin" size={20} color="#E52B50" />
+            </Text>
+            <Text style={{marginLeft: 20}}>{userInfo.city + ', ' + userInfo.state}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text>
+              <Icon name="phone" size={20} color="#E52B50" />
+            </Text>
+            <Text style={{marginLeft: 20}}>{"+91 " + userInfo.phoneNo}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text>
+              <Icon name="mail" size={20} color="#E52B50" />
+            </Text>
+            <Text style={{marginLeft: 20}}>{userInfo.email}</Text>
+          </View>
+        </View>
+        <Text
+          style={{
+            fontSize: 17,
+            marginLeft: 27,
+            marginBottom: 15,
+            fontWeight: '700',
+            color: 'black',
+          }}>
+          {' '}
+          Click to become a Seller!
+        </Text>
+        <View style={styles.infoBoxWrapper}>
+          <View
+            style={[
+              styles.infoBox,
+              {
+                borderRightColor: '#dddddd',
+                borderRightWidth: 1,
+              },
+            ]}>
+            <TouchableOpacity onPress={EditFormListHandler}>
+              <Text>Sell your Product</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.infoBox}>
+            <TouchableOpacity onPress={EditProductListHandler}>
+              <Text>Products List</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View>
+          <View>
+            <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('FavouritesList')}>
+              <Text>
+                <Icon name="shopping-bag" size={20} color="#E52B50" />
+              </Text>
+              <Text style={styles.menuItemText}>Your Favourite</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={EditProfileHandler}>
+              <Text>
+                <Icon name="settings" size={20} color="#E52B50" />
+              </Text>
+              <Text style={styles.menuItemText}>Settings</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <TouchableOpacity style={styles.menuItem}>
+              <Text>
+                <Icon name="help" size={20} color="#E52B50" />
+              </Text>
+              <Text style={styles.menuItemText}>help</Text>
+            </TouchableOpacity>
+          </View>
+
+          <View>
+            <TouchableOpacity style={styles.menuItem} onPress={handleLogout}>
+              <Text>
+                <Icon name="logout" size={20} color="#E52B50" />
+              </Text>
+              <Text style={styles.menuItemText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+export default ProfilePage;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 10,
+    marginBottom: 65,
+  },
+  userInfoSectionOne: {
+    paddingHorizontal: 30,
+    marginBottom: 25,
+  },
+  userInfoSectionTwo: {
+    paddingHorizontal: 30,
+    marginBottom: 25,
+    marginHorizontal: 30,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  caption: {
+    fontSize: 14,
+    lineHeight: 14,
+    fontWeight: '500',
+  },
+  row: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  infoBoxWrapper: {
+    borderBottomColor: '#dddddd',
+    borderBottomWidth: 1,
+    borderTopColor: '#dddddd',
+    borderTopWidth: 1,
+    flexDirection: 'row',
+    height: 65,
+  },
+  infoBox: {
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menuItem: {
+    flexDirection: 'row',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    alignItems: 'center',
+    backgroundColor: '#E5e4e2',
+    marginTop: 15,
+    marginHorizontal: 30,
+    borderRadius: 20,
+  },
+  menuItemText: {
+    color: '#777777',
+    marginLeft: 20,
+    fontWeight: '600',
+    fontSize: 15,
+    lineHeight: 26,
+  },
+  backgroundStyle: {
+    backgroundColor: '#E5E4E2',
+    borderRadius: 27,
+    padding: 10,
+  },
+});
