@@ -6,17 +6,19 @@ import AddressConfirm from './AddressConfirm';
 import OrderDetails from './OrderDetails';
 import Payment from './Payment';
 
-const PaymentScreen = ({navigation}) => {
+const PaymentScreen = ({navigation, route}) => {
     const childRef = useRef();
+    const items = route.params.items;
 
     const [selectedStep, setSelectedStep] = useState(1);
+    const [totalAmount, setTotalAmount] = useState(0);
 
     const handleNext = async () => {
         if(selectedStep == 2) {
-            await childRef.current.func();
+            childRef.current.func();
         }
         else if(selectedStep == 3) {
-            await childRef.current.func();
+            childRef.current.func();
         }
 
         if(selectedStep+1 < 5) {
@@ -33,9 +35,9 @@ const PaymentScreen = ({navigation}) => {
                 selectedStep==1
                 ? <AddressConfirm/>
                 : selectedStep==2
-                ? <OrderDetails selectedStep={selectedStep} ref={childRef}/>
+                ? <OrderDetails items={items} setTotalAmount={setTotalAmount} ref={childRef}/>
                 : selectedStep==3
-                ? <Payment selectedStep={selectedStep} ref={childRef}/>
+                ? <Payment totalAmount={totalAmount} ref={childRef}/>
                 : null
             }
             </View>
@@ -44,10 +46,13 @@ const PaymentScreen = ({navigation}) => {
                 <TouchableOpacity 
                     style={{...styles.button,backgroundColor: '#BBBBBB'}} 
                     onPress={() => {
-                        if(selectedStep-1 > 0) setSelectedStep(selectedStep-1);
+                        if(selectedStep == 1) navigation.goBack();
+                        else setSelectedStep(selectedStep-1);
                     }}
                 > 
-                    <Text style={{...styles.buttonTitle}}>Previous</Text>
+                    <Text style={{...styles.buttonTitle}}>
+                        { selectedStep == 1 ? 'Back' : 'Previous' }
+                    </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity 

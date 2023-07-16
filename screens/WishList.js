@@ -112,7 +112,9 @@ const WishList = ({navigation}) => {
       <Text style={{fontSize:17,color:'grey',fontWeight:'700'}}>Total: ₹{cartValue}</Text>
       </View>
       <View style={{paddingLeft:30,paddingBottom:60}}>
-      <TouchableOpacity style={styles.addToCart} onPress={()=>navigation.navigate('PaymentScreen')}>
+      <TouchableOpacity style={styles.addToCart} onPress={()=>{
+        navigation.navigate('PaymentScreen', {items: items})
+      }}>
         <Text style={{color:'white',fontWeight:'700'}}>{"Proceed To CheckOut ->"}</Text>
      </TouchableOpacity>
       </View>

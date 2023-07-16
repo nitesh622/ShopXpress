@@ -3,6 +3,7 @@ let user = {
     email: '',
     phoneNo: '',
     photo: '',
+    locality: '',
     city: '---',
     state: '---',
     pincode: '',
