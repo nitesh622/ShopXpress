@@ -96,6 +96,7 @@ const WishList = ({navigation}) => {
             onRefresh={() => handleRefresh()} 
           />
         } 
+        keyExtractor = {(item, index) => index}
         data={items}
         renderItem={({item, key})=>{
           return (

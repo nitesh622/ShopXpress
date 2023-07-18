@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import StepsCheckBar from './StepsCheckBar';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AddressConfirm from './AddressConfirm';
 import OrderDetails from './OrderDetails';
 import Payment from './Payment';
+import RNUpiPayment from 'react-native-pay-by-upi';
 
 const PaymentScreen = ({navigation, route}) => {
-    const childRef = useRef();
     const items = route.params.items;
 
     const [selectedStep, setSelectedStep] = useState(1);
@@ -15,15 +15,36 @@ const PaymentScreen = ({navigation, route}) => {
 
     const handleNext = async () => {
         if(selectedStep == 2) {
-            childRef.current.func();
-        }
-        else if(selectedStep == 3) {
-            childRef.current.func();
+            console.log(totalAmount);
+            heandlePayment();
         }
 
-        if(selectedStep+1 < 5) {
+        if(selectedStep+1 < 3) {
             setSelectedStep(selectedStep + 1);
         }
+    }
+
+    const successCallback = (data) => {
+        alert('Transaction Completed Successfully');
+        console.log(data);
+    }
+
+    const failureCallback = (data) => {
+        alert('Transaction Failed');
+        console.log(data);
+    }
+
+    const heandlePayment = () => {
+        RNUpiPayment.initializePayment(
+            {
+              vpa: "7015590264@paytm", // or can be john@ybl or mobileNo@upi
+              payeeName: "ShopXpress",
+              amount: totalAmount.toString(),
+              transactionRef: "aasf-332-aoei-fn",
+            },
+            successCallback,
+            failureCallback
+        );
     }
 
     return (
@@ -35,16 +56,14 @@ const PaymentScreen = ({navigation, route}) => {
                 selectedStep==1
                 ? <AddressConfirm/>
                 : selectedStep==2
-                ? <OrderDetails items={items} setTotalAmount={setTotalAmount} ref={childRef}/>
-                : selectedStep==3
-                ? <Payment totalAmount={totalAmount} ref={childRef}/>
+                ? <OrderDetails items={items} setTotalAmount={setTotalAmount}/>
                 : null
             }
             </View>
 
             <View style={styles.btnBox}>
                 <TouchableOpacity 
-                    style={{...styles.button,backgroundColor: '#BBBBBB'}} 
+                    style={{...styles.button,backgroundColor: '#BBBBBB'}}  
                     onPress={() => {
                         if(selectedStep == 1) navigation.goBack();
                         else setSelectedStep(selectedStep-1);
@@ -59,7 +78,7 @@ const PaymentScreen = ({navigation, route}) => {
                     style={styles.button} 
                     onPress={() => {handleNext()}}
                 > 
-                    <Text style={styles.buttonTitle}>Next</Text>
+                    <Text style={styles.buttonTitle}>{ selectedStep == 2 ? 'Pay' : 'Next' }</Text>
                 </TouchableOpacity>
             </View>
         </View>

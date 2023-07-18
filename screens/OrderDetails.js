@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView, FlatList } from 'react-native'
-import React, { useState ,useEffect, useImperativeHandle, forwardRef} from 'react'
+import React, { useState ,useEffect} from 'react'
 import user from '../data/Schema/userSchema';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -13,14 +13,6 @@ const OrderDetails = (props, ref) => {
     const navigation = useNavigation();
     const [items, setItems] = useState([]);
     const [cartValue, setCartValue] = useState(0);
-
-    useImperativeHandle(ref, () => ({
-        func: () => { func() }
-    }));
-
-    const func = () => {
-        props.setTotalAmount(cartValue);
-    }
 
     const getProducts = async (cartarr) => {
         let itemsarr = [];
@@ -48,7 +40,7 @@ const OrderDetails = (props, ref) => {
         }
 
         setCartValue(total);
-
+        props.setTotalAmount(total);
         return itemsarr
     }
 
@@ -58,6 +50,7 @@ const OrderDetails = (props, ref) => {
 
             let itemsarr = await getProducts(cartarr);
             setItems(itemsarr);
+            
         }
         catch(err) {
             console.log(err);
@@ -123,7 +116,7 @@ const OrderDetails = (props, ref) => {
     )
 }
 
-export default forwardRef(OrderDetails);
+export default OrderDetails;
 
 const styles = StyleSheet.create({
     container: {
