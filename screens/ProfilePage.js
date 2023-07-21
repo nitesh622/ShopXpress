@@ -11,41 +11,27 @@ import React, { useEffect, useState } from 'react';
 import {Avatar, Title, Caption} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import auth from '@react-native-firebase/auth';
-import {StackActions, useNavigation} from '@react-navigation/native';
 import {MyTabs} from '../navigation/BottomNavigation';
 import user from '../data/Schema/userSchema';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { OnboardingScreenNavigation } from '../navigation/BottomNavigation';
+import RNRestart from 'react-native-restart';
 
-const ProfilePage = () => {
-  const navigation = useNavigation();
+const ProfilePage = ({navigation}) => {
   const [userInfo, setUserInfo] = useState(user);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleLogout = async () => {
-    // try {
-    //   await auth().signOut();
-    //   // navigation.goBack();
-    //   // await MyTabs();
-    //   // navigation.navigate('OnboardingScreenNavigtion');
-    //   // navigation.dispatch(StackActions.replace('OnboardingScreenNavigation'));
-    // }
-    // catch(err) {
-    //   console.log(err);
-    // }
-
     try {
       await auth().signOut();
       await GoogleSignin.signOut();
+      RNRestart.restart();
     } catch (error) {
       console.error(error);
     }
   };
-
-  // useEffect(() => {
-  //   // 
-  // }, [])
 
   useEffect(()=>{
     getDatabase();

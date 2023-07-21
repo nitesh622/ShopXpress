@@ -44,7 +44,7 @@ const ProductList = () => {
           refreshControl={
               <RefreshControl
               refreshing = {isRefreshing}
-              onRefresh={() => handleRefresh()} 
+              onRefresh={() => handleRefresh()}
               />
           }
           keyExtractor = {(item, index) => index}

@@ -8,17 +8,17 @@ const Carousel = () => {
     'https://github.com/PranjalSrivastava01/MealsApp/assets/96906907/26a9677a-9bf5-4d2d-be25-db814a17379f',
   ];
   return (
-    <View>
-      <SliderBox images={images} 
-      autoplay
-      circleLoop
-      borderRadius={15}
-      dotColor = '#E52B50'
-      inactiveDotColor = 'white'
-      ImageComponentStyle = {{
-        borderRadius: 15,
-        width: "100%",
-      }}
+    <View style={{marginLeft: 4}}>
+      <SliderBox 
+        images={images} 
+        autoplay
+        circleLoop
+        borderRadius={15}
+        dotColor = '#E52B50'
+        inactiveDotColor = 'white'
+        ImageComponentStyle = {{
+          width: "98%"
+        }}
       />
     </View>
   );

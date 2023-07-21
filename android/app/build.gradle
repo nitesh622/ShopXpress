@@ -115,6 +115,8 @@ dependencies {
 
     implementation project(':react-native-pay-by-upi')
 
+    implementation project(':react-native-restart')
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
         exclude group:'com.squareup.okhttp3', module:'okhttp'

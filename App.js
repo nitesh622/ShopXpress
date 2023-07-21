@@ -6,17 +6,13 @@ import {OnboardingScreenNavigation} from './navigation/BottomNavigation';
 import { Provider } from 'react-redux';
 import store from './screens/Redux/store/Store';
 import { useSelector } from 'react-redux';
-// import firebase from '@react-native-firebase/app';
-
 
 const App = () => {
-  // await firebase.initializeApp();
   return (
     <>
     <Provider store={store}>
       <NavigationContainer>
         <OnboardingScreenNavigation />
-        {/* <MyTabs /> */}
       </NavigationContainer>
     </Provider>
     </>

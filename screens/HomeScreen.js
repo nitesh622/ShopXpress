@@ -15,10 +15,13 @@ import hotels from '../data/hotels';
 import MenuItem from '../components/MenuItem';
 import OfferList from '../components/OfferList';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const data = hotels;
   return (
-    <ScrollView style={{marginHorizontal: 10}}>
+    <ScrollView 
+      showsVerticalScrollIndicator={false}
+      style={{}}
+    >
       <View style={styles.mainContainer}>
         <TextInput style={{fontSize: 17}} placeholder="Search your item here" />
         <Icon name="search" size={30} color="#E52B50" />
@@ -40,9 +43,13 @@ const HomeScreen = () => {
           <Text>Sort by price</Text>
         </Pressable>
       </View>
-      {data.map((item, index) => (
-        <MenuItem key={index} item={item} />
-      ))}
+      <View style={{marginHorizontal: 10}}>
+        {
+          data.map((item, index) => (
+            <MenuItem key={index} item={item} navigation={navigation}/>
+          ))
+        }
+      </View>
       <View style= {{marginBottom:80}}>
         <Text style = {styles.offerTextStyle}>Price Ranges!</Text>
       <OfferList title ={"Below ₹ 99"} Secondtitle = {"₹ 100 to ₹ 199"}/>
@@ -63,6 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderWidth: 1,
     marginVertical: 10,
+    marginHorizontal: 5,
     paddingHorizontal: 10,
     borderColor: '#C0C0C0',
     borderRadius: 15,

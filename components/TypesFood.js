@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   },
   heading: {
     paddingVertical: 15,
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     fontWeight: '900',
     color: 'black',
     fontSize: 17,

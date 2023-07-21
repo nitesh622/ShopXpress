@@ -84,28 +84,29 @@ const WishList = ({navigation}) => {
   }
 
   return (
-    <View style={{flex:1, backgroundColor: '#DDE6ED'}}>
+    <View style={{flex:1, width: '100%', backgroundColor: '#DDE6ED', justifyContent: 'center', alignItems: 'center'}}>
       <Spinner
         visible={showLoader}
         size={50}
       />
-      <FlatList
-        refreshControl={
-          <RefreshControl
-            refreshing = {isRefreshing}
-            onRefresh={() => handleRefresh()} 
-          />
-        } 
-        keyExtractor = {(item, index) => index}
-        data={items}
-        renderItem={({item, key})=>{
-          return (
-            <CartListScreen key={key} item={item} handleChange={handleChange}/>
-          )
-        }}
-      >
-      </FlatList>
-
+      <View style={{paddingHorizontal: 10}}>
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing = {isRefreshing}
+              onRefresh={() => handleRefresh()} 
+            />
+          } 
+          keyExtractor = {(item, index) => index}
+          data={items}
+          renderItem={({item, key})=>{
+            return (
+              <CartListScreen key={key} item={item} handleChange={handleChange}/>
+            )
+          }}
+        >
+        </FlatList>
+      </View>
      <View style={styles.checkoutView}>
       <View style={{flexDirection:'row',marginTop:25,justifyContent:'space-between'}}>
       <View style={{flexDirection:'column'}}>

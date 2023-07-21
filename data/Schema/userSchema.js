@@ -11,7 +11,8 @@ let user = {
     cartItems: [],
     favourites: [],
     purchaseHistory: [],
-    productsListed: []
+    productsListed: [],
+    reviews: [],
 }
 
 export default user;

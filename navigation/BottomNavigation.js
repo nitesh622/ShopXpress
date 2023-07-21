@@ -1,5 +1,6 @@
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import ProfilePage from '../screens/ProfilePage';
 import HomeScreen from '../screens/HomeScreen';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -24,7 +25,9 @@ import auth from '@react-native-firebase/auth';
 import { useState } from 'react';
 import FavouritesList from '../screens/FavouritesList';
 import PaymentScreen from '../screens/PaymentScreen';
-
+import { displayPartsToString } from 'typescript';
+import WriteReview from '../screens/WriteReview';
+import ReviewPage from '../screens/ReviewPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -71,47 +74,32 @@ const OnboardingScreenNavigation = () => {
         component={MyTabs}
         options={{headerShown: false}}
       />
-      {/* <Stack.Screen
-        name="OtpVerify"
-        component={OtpVerify}
-        options={{headerShown: false}}
-      /> */}
       
     </Stack.Navigator>
   );
 };
 
 const MyTabs = () => {
-  const [isUserLogin, setIsUserLogin] = useState(false);
-  auth().onAuthStateChanged((user) => {
-    if(user) setIsUserLogin(true);
-  });
-
-  if(isUserLogin) {
   return (
     <>
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: '#E52B50',
-          tabBarInactiveTintColor: 'black',
-          tabBarStyle: {
-            backgroundColor: 'white',
-            borderRadius: 20,
-            margin: 15,
-            position: 'absolute',
-            height: 50,
-          },
+          tabBarInactiveTintColor: 'grey',
+          tabBarStyle: styles.bottomTabBarStyle,
+          tabBarLabelStyle:{fontSize: 14, fontWeight:'bold'},
         }}
       >
       <Tab.Screen
         name="Home"
         component={StackNavigation}
         options={{
+          tabBarLabelStyle:{fontSize: 14, fontWeight:'bold'},
           headerShown: false,
           tabBarIcon: ({focused}) => {
             return (
               <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Icon name="home" size={25} color={'#E52B50'} />
+                <Icon name="home" size={30} color={'#E52B50'} />
               </View>
             );
           },
@@ -125,7 +113,7 @@ const MyTabs = () => {
           tabBarIcon: ({focused}) => {
             return (
               <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Icon name="list" size={25} color={'#E52B50'} />
+                <Icon name="list" size={30} color={'#E52B50'} />
               </View>
             );``
           },
@@ -139,7 +127,7 @@ const MyTabs = () => {
           tabBarIcon: ({focused}) => {
             return (
               <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <Icon name="shopping-cart" size={25} color={'#E52B50'} />
+                <Icon name="shopping-cart" size={30} color={'#E52B50'} />
               </View>
             );
           },
@@ -152,7 +140,9 @@ const MyTabs = () => {
           headerShown: false,
           tabBarIcon: ({}) => {
             return (
-              <Ionicons name="person-circle" size={25} color={'#E52B50'} />
+              <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                <Ionicons name="person-circle" size={30} color={'#E52B50'} />
+              </View>
             );
           },
         }}
@@ -160,16 +150,6 @@ const MyTabs = () => {
       </Tab.Navigator>
     </>
   );
-  }
-  else {
-    <Stack.Navigator>
-      <Stack.Screen
-        name="OnboardingScreenNavigation"
-        component={OnboardingScreenNavigation}
-        options={{headerShown: false}}
-      />
-    </Stack.Navigator>
-  }
 };
 
 const StackNavigation = () => {
@@ -216,16 +196,33 @@ const CategoriesNavigator = () => {
         component={CategoriesItemsList}
         options={({route}) => ({title: route.params.name})}
       />
-        <Stack.Screen
-        name="Cart"
-        component={Cart}
-        options={
-          {
-            title: 'Cart',
+      <Stack.Screen
+        name="MenuScreen"
+        component={MenuScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="WriteReview"
+        component={WriteReview}
+        options={{
+          title: 'Write Review',
           headerLeft: () => null,
           headerTitleAlign: 'center',
-          }
-        }
+        }}
+      />
+      <Stack.Screen
+        name="ReviewPage"
+        component={ReviewPage}
+        options={{
+          title: 'Reviews',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="CartNavigator"
+        component={CartNavigator}
+        options={{headerShown: false}}
       />
     </Stack.Navigator>
   );
@@ -267,6 +264,11 @@ const CartNavigator = () => {
       <Stack.Screen
         name="EditProfile"
         component={EditProfile}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="MenuScreen"
+        component={MenuScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
@@ -313,8 +315,26 @@ const ProfileStackNavigator = () => {
           headerTitleAlign: 'center',
         }}
       />
+      <Stack.Screen
+        name="OnboardingScreenNavigation"
+        component={OnboardingScreenNavigation}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
 
 export {MyTabs, OnboardingScreenNavigation};
+
+const styles = StyleSheet.create({
+  bottomTabBarStyle:{
+    backgroundColor: 'white',
+    borderRadius: 20,
+    margin: 10,
+    position: 'absolute',
+    height: 60,
+    elevation: 5,
+    paddingBottom: 5,
+    paddingTop: 5,
+  }
+});

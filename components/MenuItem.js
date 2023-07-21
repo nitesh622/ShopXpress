@@ -13,8 +13,7 @@ import { useEffect } from 'react'
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-const MenuItem = ({ item }) => {
-  const navigation = useNavigation();
+const MenuItem = ({ item, navigation }) => {
   const [addFav, setAddFav] = useState(false);
 
   useEffect(() => {getFav()}, []);
@@ -56,12 +55,12 @@ const MenuItem = ({ item }) => {
   }
 
   return (
-    <View style={{marginTop: 10, padding: 10, borderRadius: 15, backgroundColor: 'white' }}>
+    <View style={{flex:1, width: '100%', marginTop: 10, padding: 10, borderRadius: 15, backgroundColor: 'white', borderWidth:1, borderColor: '#E0E0E0',}}>
       <Pressable onPress={() => navigation.navigate('MenuScreen', {item: item})} style={{ flexDirection: 'row' }}>
-        <View style={{marginRight: 5, height: 150, width: 150, borderRadius: 15}}>
+        <View style={{marginRight: 5, height: '100%', width: '40%', borderRadius: 15}}>
           <ImageBackground
             imageStyle={{ borderRadius: 6 }}
-            style={{    width: '100%', height: undefined, aspectRatio: 1}}
+            style={{width: '100%', height: undefined, aspectRatio: 1}}
             resizeMode='contain'
             source={
               (item.photos.length == 0) ? 
@@ -77,18 +76,18 @@ const MenuItem = ({ item }) => {
             </Pressable>
           </ImageBackground>
         </View>
-        <View style={{ marginLeft: 10 }}>
-          <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.name}</Text>
+        <View style={{ marginLeft: 10, width: '60%' }}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black' }}>{item.name}</Text>
+          <View style={{ flexDirection: 'row', marginTop: 6, marginLeft: 5 }}>
+            <FontAwesome name="rupee" size={20} style={{ marginTop: 4}} />
+            <Text style={{ marginHorizontal: 5, fontSize: 18, }}>{item.price}</Text>
+          </View>
           <View style={styles.descStyle}>
             <MaterialCommunityIcons name="star-circle" size={24} color="green" />
             <Text style={{ marginLeft: 3, fontSize: 15, fontWeight: '400' }}>{item.rating}</Text>
             <Text style={{ marginLeft: 3, fontSize: 15, fontWeight: '400' }}>{'( ' + item.totalReviews + ' )'}</Text>
           </View>
           {/* <Text style={{ marginTop: 6 }}>{item.adress}</Text> */}
-          <View style={{ flexDirection: 'row', marginTop: 6 }}>
-            <FontAwesome name="rupee" size={22} style={{ marginLeft: 3 }} />
-            <Text style={{ marginHorizontal: 10, fontSize: 15, }}>{item.price}</Text>
-          </View>
           <View style={{ flexDirection: 'row' }}>
             <Fontisto name="clock" size={20} style={{ marginTop: 7 }} />
             <Text style={{ marginTop: 9, marginLeft: 10, fontSize: 15,}}>{item.deliveryTime}</Text>
