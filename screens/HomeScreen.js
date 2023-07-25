@@ -22,10 +22,12 @@ const HomeScreen = ({navigation}) => {
       showsVerticalScrollIndicator={false}
       style={{}}
     >
-      <View style={styles.mainContainer}>
-        <TextInput style={{fontSize: 17}} placeholder="Search your item here" />
-        <Icon name="search" size={30} color="#E52B50" />
-      </View>
+      <Pressable onPress={() => {navigation.navigate('Search')}}>
+        <View style={styles.mainContainer}>
+          <Text style={{fontSize: 17}}>{"Search your item here"}</Text>
+          <Icon name="search" size={30} color="#E52B50" />
+        </View>
+      </Pressable>
       <Carousel />
       <TypesFood />
       <QuickFood />
@@ -70,8 +72,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderWidth: 1,
     marginVertical: 10,
-    marginHorizontal: 5,
-    paddingHorizontal: 10,
+    marginHorizontal: 8,
+    paddingHorizontal: 15,
+    paddingVertical: 5,
     borderColor: '#C0C0C0',
     borderRadius: 15,
   },

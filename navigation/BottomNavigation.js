@@ -28,6 +28,8 @@ import PaymentScreen from '../screens/PaymentScreen';
 import { displayPartsToString } from 'typescript';
 import WriteReview from '../screens/WriteReview';
 import ReviewPage from '../screens/ReviewPage';
+import Search from '../screens/Search';
+import ProductsScreen from '../screens/ProductsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -165,7 +167,17 @@ const StackNavigation = () => {
         component={MenuScreen}
         options={{headerShown: false}}
       />
-        <Stack.Screen
+      <Stack.Screen
+        name="Search"
+        component={Search}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ProductsScreen"
+        component={ProductsScreen}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="CartListScreen"
         component={CartListScreen}
         options={{headerShown: false}}
