@@ -9,10 +9,42 @@ const Search = ({navigation, route}) => {
 
   useEffect(()=>{getDatabase()}, []);
 
+  const getProducts = async (prodarr) => {
+    try { 
+      let arr = [];
+      for(let i=0; i<prodarr.length; i++) {
+        let prod = {
+          productCategory: prodarr[i].productCategory,
+          productId: prodarr[i].productId,
+          productName: '',
+          productPrice: 0,
+          productRating: 0,
+        }
+
+        const res = await firestore()
+        .collection('products')
+        .doc(prodarr[i].productCategory)
+        .collection('categoryProducts')
+        .doc(prodarr[i].productId).get();
+        prod.productName = res._data.name;
+        prod.productPrice = res._data.price;
+        prod.productRating = res._data.rating;
+
+        arr.push(prod);
+      }
+
+      return arr;
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
   const getDatabase = async () => {
     try {
       const res = await firestore().collection('productsList').doc('list').get();
-      setProductsList(res._data.listArray);
+      let arr = await getProducts(res._data.listArray);
+      setProductsList(arr);
     }
     catch(err) {
       console.log(err);

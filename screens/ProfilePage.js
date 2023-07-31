@@ -5,11 +5,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-  RefreshControl
+  RefreshControl,
+  Image
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {Avatar, Title, Caption} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+// import AntDesign from 'react-native-vector-icons/AntDesign';
 import auth from '@react-native-firebase/auth';
 import {MyTabs} from '../navigation/BottomNavigation';
 import user from '../data/Schema/userSchema';
@@ -61,15 +63,6 @@ const ProfilePage = ({navigation}) => {
     setIsRefreshing(false);
   }
 
-  function EditProfileHandler() {
-    navigation.navigate('EditProfile', {userInfo: userInfo});
-  }
-  function EditFormListHandler() {
-    navigation.navigate('FormList', {userData: userInfo});
-  }
-  function EditProductListHandler() {
-    navigation.navigate('ProductList');
-  }
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView 
@@ -149,17 +142,26 @@ const ProfilePage = ({navigation}) => {
                 borderRightWidth: 1,
               },
             ]}>
-            <TouchableOpacity onPress={EditFormListHandler}>
+            <TouchableOpacity onPress={() => {navigation.navigate('FormList', {userData: userInfo});}}>
               <Text>Sell your Product</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.infoBox}>
-            <TouchableOpacity onPress={EditProductListHandler}>
+            <TouchableOpacity onPress={() => {navigation.navigate('ProductList');}}>
               <Text>Products List</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View>
+          <View>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() => {navigation.navigate('PurchaseHistory')}}>
+              <Image source={require('../assets/box.png')} style={{height: 20, width: 20}}/>
+              <Text style={styles.menuItemText}>Purchase History</Text>
+            </TouchableOpacity>
+          </View>
+
           <View>
             <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('FavouritesList')}>
               <Text>
@@ -168,13 +170,12 @@ const ProfilePage = ({navigation}) => {
               <Text style={styles.menuItemText}>Your Favourite</Text>
             </TouchableOpacity>
           </View>
+
           <View>
             <TouchableOpacity
               style={styles.menuItem}
-              onPress={EditProfileHandler}>
-              <Text>
-                <Icon name="settings" size={20} color="#E52B50" />
-              </Text>
+              onPress={()=> {navigation.navigate('EditProfile', {userInfo: userInfo})}}>
+              <Icon name="settings" size={20} color="#E52B50" />
               <Text style={styles.menuItemText}>Settings</Text>
             </TouchableOpacity>
           </View>

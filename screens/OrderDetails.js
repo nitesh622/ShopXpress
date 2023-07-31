@@ -41,6 +41,7 @@ const OrderDetails = (props, ref) => {
 
         setCartValue(total);
         props.setTotalAmount(total);
+        // console.log(total);
         return itemsarr
     }
 

@@ -29,6 +29,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 const SellProductForm = ({navigation, route}) => {
   const [finalProduct, setFinalProduct] = useState(product);
   const [showLoader, setShowLoader] = useState(false);
+  console.log(finalProduct);
 
   const userData = route.params.userData;
 
@@ -82,6 +83,7 @@ const SellProductForm = ({navigation, route}) => {
   }
 
   const handleSellProduct = async () => {
+    // console.log(finalProduct);
     if(finalProduct.name == '') {
       ToastAndroid.show('Please Enter the Name of the Product', ToastAndroid.BOTTOM);
     }
@@ -99,6 +101,9 @@ const SellProductForm = ({navigation, route}) => {
     }
     else if(finalProduct.photos.length == 0) {
       ToastAndroid.show('Please select atleast 1 Image of your Product', ToastAndroid.BOTTOM);
+    }
+    else if(finalProduct.deliveryTime.days == 0 && finalProduct.deliveryTime.hours == 0 && finalProduct.deliveryTime.minutes == 0) {
+      ToastAndroid.show('Please add a Expected delivery Time of your Product', ToastAndroid.BOTTOM);
     }
     else {
       setShowLoader(true);
@@ -129,6 +134,11 @@ const SellProductForm = ({navigation, route}) => {
         .collection('users')
         .doc(currUser.uid)
         .update({'productsListed': firestore.FieldValue.arrayUnion(newProd)});
+
+        await firestore()
+        .collection('productsList')
+        .doc('list')
+        .update({'listArray': firestore.FieldValue.arrayUnion({productCategory: finalProduct.category, productId: finalProduct.id})});
 
         navigation.goBack();
         alert('Product Listed');
@@ -214,6 +224,28 @@ const SellProductForm = ({navigation, route}) => {
             keyboardType="numeric"
           />
 
+          <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 10, marginHorizontal:5}}>{'Expected Delivery Time'}</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TextInput
+              style={{...styles.input, width: '25%', textAlign: 'center'}}
+              placeholder="Days"
+              onChangeText={text => setFinalProduct({...finalProduct, deliveryTime: {...finalProduct.deliveryTime, days: text}})}
+              keyboardType="numeric"
+            />
+            <TextInput
+              style={{...styles.input, width: '25%', textAlign: 'center'}}
+              placeholder="Hours"
+              onChangeText={text => setFinalProduct({...finalProduct, deliveryTime: {...finalProduct.deliveryTime, hours: text}})}
+              keyboardType="numeric"
+            />
+            <TextInput
+              style={{...styles.input, width: '25%', textAlign: 'center'}}
+              placeholder="Minutes"
+              onChangeText={text => setFinalProduct({...finalProduct, deliveryTime: {...finalProduct.deliveryTime, minutes: text}})}
+              keyboardType="numeric"
+            />
+          </View>
+
           <TextInput
             editable
             multiline
@@ -279,7 +311,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 45,
-    marginBottom: 10,
+    marginBottom: 15,
     borderColor: '#ccc',
     padding: 5,
     borderRadius: 15,
@@ -288,7 +320,7 @@ const styles = StyleSheet.create({
   },
   biginput: {
     height: 100,
-    marginBottom: 10,
+    marginBottom: 15,
     borderColor: '#ccc',
     padding: 5,
     borderRadius: 15,

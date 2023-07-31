@@ -89,7 +89,7 @@ const WishList = ({navigation}) => {
         visible={showLoader}
         size={50}
       />
-      <View style={{paddingHorizontal: 10}}>
+      <View style={{paddingHorizontal: 10, width: '100%', height: '100%'}}>
         <FlatList
           refreshControl={
             <RefreshControl

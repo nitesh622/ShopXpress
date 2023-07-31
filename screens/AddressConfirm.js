@@ -1,30 +1,14 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import user from '../data/Schema/userSchema';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import React from 'react'
 import {useNavigation} from '@react-navigation/native';
 
-const AddressConfirm = () => {
+const AddressConfirm = (props) => {
     const navigation = useNavigation();
-    const [userInfo, setUserInfo] = useState(user);
-
-    const getDatabase = async () => {
-        try {
-            const curruser = auth().currentUser;
-            const res = await firestore().collection('users').doc(curruser.uid).get();
-            setUserInfo(res._data);
-        }
-        catch(err) {
-            console.log(err);
-        }
-    }
+    const userInfo = props.userInfo;
 
     const handleEdit = async () => {
         navigation.navigate('EditProfile', {userInfo: userInfo});
     }
-
-    useEffect(() => {getDatabase()}, [userInfo])
 
     return (
         <View style={{flex:1}}>

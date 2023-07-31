@@ -113,9 +113,7 @@ const ProductsScreen = ({navigation, route}) => {
                 }
             }
         }
-
-        console.log(arr);
-
+        
         setFilteredProductsList(arr);
     }
 
@@ -275,9 +273,9 @@ const ProductsScreen = ({navigation, route}) => {
                             borderRadius: 25, 
                             borderWidth: 1, 
                             borderColor: '#C0C0C0', 
-                            padding: 5, 
+                            padding: 5,
                             flexDirection: 'row', 
-                            justifyContent: 'center', 
+                            justifyContent: 'center',
                             alignItems: 'center', 
                             backgroundColor: 'white'
                         }}

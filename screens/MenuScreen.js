@@ -164,10 +164,10 @@ const MenuScreen = ({navigation,route}) => {
         <Text style = {{fontSize:16, marginBottom: 7}}>Details:</Text>
         <View style = {styles.descStyle}>
           <MaterialCommunityIcons name="star-circle" size={24} color="green" />
-          <Text style = {{marginLeft: 3, fontSize: 15 ,fontWeight: '400'}}>{item.rating}</Text>
+          <Text style = {{marginLeft: 3, fontSize: 15 ,fontWeight: '400'}}>{item.rating.toFixed(1)}</Text>
           <Text style = {{marginLeft: 3, fontSize: 15 ,fontWeight: '400'}}>{'( ' + item.totalReviews + ' )'}</Text>
         </View>
-        <Text style = {{marginLeft: 3, fontSize: 15 ,fontWeight: '400'}}>{item.deliveryTime} mins</Text>
+        <Text style = {{marginLeft: 3, fontSize: 15 ,fontWeight: '400'}}>{item.deliveryTime.days + ' days, ' + (item.deliveryTime.hours+(item.deliveryTime.minutes/60)).toFixed(1) + ' hrs'}</Text>
         <View style = {{flexDirection: 'row'}}>
           <Fontisto name = "motorcycle" size ={24} style = {{marginTop:7}}/>
           <Text style ={{marginTop:9, marginLeft: 10,marginBottom:25}}>Free Delivery</Text>

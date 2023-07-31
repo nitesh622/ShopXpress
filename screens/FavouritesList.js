@@ -9,7 +9,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { useEffect } from 'react';
 
-const FavouritesList = () => {
+const FavouritesList = ({navigation}) => {
     const [items, setItems] = useState([]);
     const [isRefreshing, setIsRefreshing] = useState(false);
   
@@ -54,7 +54,7 @@ const FavouritesList = () => {
             data={items}
             renderItem={({item, key})=>{
                 return (
-                    <MenuItem key={key} item={item}/>
+                    <MenuItem key={key} item={item} navigation={navigation}/>
                 )
             }}
         >

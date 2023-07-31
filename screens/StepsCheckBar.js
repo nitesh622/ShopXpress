@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const StepsCheckBar = ({selectedStep}) => {
+const StepsCheckBar = ({selectedStep, paymentStatus}) => {
     return (
         <View style={{alignItems: 'center'}}>
             <View style={styles.mainBox}>
@@ -31,11 +31,28 @@ const StepsCheckBar = ({selectedStep}) => {
                         : <Text style={{fontWeight: 'bold', fontSize: 22, color: 'white'}}>2</Text>
                     }
                 </View>
+
+                <View style={{
+                    ...styles.line,
+                    backgroundColor: (selectedStep>2 ? 'green' : '#BBBBBB'),
+                }}>
+                </View>
+
+                <View style={{
+                    ...styles.circle,
+                    backgroundColor: (selectedStep>2 ? 'green' : '#BBBBBB'),
+                }}>
+                    {selectedStep > 3 || paymentStatus=='Success'
+                        ? <MaterialCommunityIcons name='check-bold' size={24} color='white' />
+                        : <Text style={{fontWeight: 'bold', fontSize: 22, color: 'white'}}>3</Text>
+                    }
+                </View>
             </View>
 
             <View style={styles.textBox}>
                 <Text style={styles.textStyle}>Address</Text>
                 <Text style={styles.textStyle}>Order Details</Text>
+                <Text style={styles.textStyle}>Payment</Text>
             </View>
         </View>
     )
@@ -59,14 +76,14 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
     line: {
-        width: '60%',
+        width: '30%',
         height: 5,
         backgroundColor: 'green',
     },
     textBox: {
         // borderWidth: 1,
         paddingTop: 65,
-        width: '90%',
+        width: '100%',
         padding: 20, 
         flexDirection: 'row', 
         justifyContent: 'space-between',

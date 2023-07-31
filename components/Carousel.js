@@ -1,12 +1,24 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {SliderBox} from 'react-native-image-slider-box';
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
+
 const Carousel = () => {
-  const images = [
-    'https://github.com/Siddhant422/GFG/assets/96906907/cae53e14-4c88-4389-be30-aedb9aadabe2',
-    'https://github.com/PranjalSrivastava01/MealsApp/assets/96906907/573e3936-4825-4940-9c36-36bf95bce9d9',
-    'https://github.com/PranjalSrivastava01/MealsApp/assets/96906907/26a9677a-9bf5-4d2d-be25-db814a17379f',
-  ];
+  const [images, setImages] = useState([]);
+
+  const getDatabase = async () => {
+    try {
+      const res = await firestore().collection('promos').doc('links').get();
+      setImages(res._data.linksArr);
+    }
+    catch(err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{getDatabase()}, []);
+
   return (
     <View style={{marginLeft: 4}}>
       <SliderBox 

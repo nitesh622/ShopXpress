@@ -84,13 +84,13 @@ const MenuItem = ({ item, navigation }) => {
           </View>
           <View style={styles.descStyle}>
             <MaterialCommunityIcons name="star-circle" size={24} color="green" />
-            <Text style={{ marginLeft: 3, fontSize: 15, fontWeight: '400' }}>{item.rating}</Text>
+            <Text style={{ marginLeft: 3, fontSize: 15, fontWeight: '400' }}>{item.rating.toFixed(1)}</Text>
             <Text style={{ marginLeft: 3, fontSize: 15, fontWeight: '400' }}>{'( ' + item.totalReviews + ' )'}</Text>
           </View>
           {/* <Text style={{ marginTop: 6 }}>{item.adress}</Text> */}
           <View style={{ flexDirection: 'row' }}>
             <Fontisto name="clock" size={20} style={{ marginTop: 7 }} />
-            <Text style={{ marginTop: 9, marginLeft: 10, fontSize: 15,}}>{item.deliveryTime}</Text>
+            <Text style={{ marginTop: 9, marginLeft: 10, fontSize: 15,}}>{item.deliveryTime.days + ' days, ' + (item.deliveryTime.hours+(item.deliveryTime.minutes/60)).toFixed(1) + ' hrs'}</Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
             <Fontisto name="motorcycle" size={24} style={{ marginTop: 7 }} />

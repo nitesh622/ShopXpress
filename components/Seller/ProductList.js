@@ -5,7 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import { useEffect } from 'react';
 
-const ProductList = () => {
+const ProductList = ({navigation}) => {
   const [items, setItems] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -51,7 +51,7 @@ const ProductList = () => {
           data={items}
           renderItem={({item, key})=>{
               return (
-                <MenuItem key={key} item={item}/>
+                <MenuItem key={key} item={item} navigation={navigation}/>
               )
           }}
       >

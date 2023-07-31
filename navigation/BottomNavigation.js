@@ -30,6 +30,8 @@ import WriteReview from '../screens/WriteReview';
 import ReviewPage from '../screens/ReviewPage';
 import Search from '../screens/Search';
 import ProductsScreen from '../screens/ProductsScreen';
+import PurchaseHistory from '../screens/PurchaseHistory';
+import OrderTracking from '../screens/OrderTracking';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -283,6 +285,15 @@ const CartNavigator = () => {
         component={MenuScreen}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="PurchaseHistory"
+        component={PurchaseHistory}
+        options={{
+          title: 'Purchase History',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -328,8 +339,26 @@ const ProfileStackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="OnboardingScreenNavigation"
-        component={OnboardingScreenNavigation}
+        name="PurchaseHistory"
+        component={PurchaseHistory}
+        options={{
+          title: 'Purchase History',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="OrderTracking"
+        component={OrderTracking}
+        options={{
+          title: 'Order Tracking',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="MenuScreen"
+        component={MenuScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
