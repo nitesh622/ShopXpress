@@ -47,12 +47,11 @@ const HomeScreen = ({navigation}) => {
       .get();
 
       let arr = res._data.listArray;
-      
-      arr.sort((a, b) => {
-        return b.productRating - a.productRating;
-      })
 
       const finalarr = await getProducts(arr);
+      finalarr.sort((a, b) => {
+        return b.rating - a.rating;
+      })
 
       setData(finalarr);
     }

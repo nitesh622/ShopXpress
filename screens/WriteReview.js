@@ -1,9 +1,8 @@
-import { StyleSheet, Text, View, Image, TextInput, ToastAndroid } from 'react-native'
+import { StyleSheet, Text, View, Image, TextInput, ToastAndroid, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import Icon from 'react-native-vector-icons/AntDesign'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const WriteReview = ({navigation,route}) => {

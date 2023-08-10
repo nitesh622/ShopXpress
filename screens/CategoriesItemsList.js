@@ -56,7 +56,7 @@ const CategoriesItemsList = ({navigation, route}) => {
           data={data}
           renderItem={({item, key})=>{
               return (
-                  <MenuItem key={key} item={item} navigation={navigation}/>
+                <MenuItem key={key} item={item} navigation={navigation}/>
               )
           }}
         >

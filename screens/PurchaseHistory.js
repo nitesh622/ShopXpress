@@ -5,7 +5,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const PurchaseHistory = ({navigation}) => {
     const [orders, setOrders] = useState([]);
-
+    console.log(orders)
     const getDatabase = async () => {
         try {
             const currUser  = auth().currentUser;
@@ -27,24 +27,24 @@ const PurchaseHistory = ({navigation}) => {
 
     return (
         <View style={{flex: 1, padding: 10, height: '100%', width: '100%'}}>
-            <View>
-
             <FlatList
                 keyExtractor = {(item, index) => index}
                 data={orders}
                 renderItem={({item, key})=>{
                     return(
                         <View style={{height: undefined, width: '100%', borderWidth: 1, borderRadius: 15, backgroundColor: 'white',borderColor: '#E0E0E0', marginVertical: 10, padding: 10}}>
-                            <TouchableOpacity 
+                            <TouchableOpacity
                                 style={{
                                     flexDirection: 'row', 
                                     justifyContent: 'space-between', 
                                     alignItems: 'center', 
-                                }} 
-                                onPress={()=>{navigation.navigate('OrderTracking', item={item})}}
+                                }}
+                                onPress={()=>{
+                                    navigation.navigate('OrderTracking', {item: item})
+                                }}
                             >
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                    <Image source={{uri: item.orderPhoto}} style={{height: 100, width: '30%', borderRadius: 15, borderWidth: 1}} />
+                                    <Image source={{uri: item.orderPhoto}} style={{height: 100, width: '30%', borderRadius: 15, borderWidth: 1, resizeMode: 'contain'}} />
                                     <View style={{marginLeft: 20, width: '60%'}}>
                                         <Text style={{fontSize: 20, fontWeight: 'bold', color: 'black'}}>{item.orderName}</Text>
                                         <Text style={{fontSize: 16, fontWeight: 'bold'}}>{'Ordered on ' + item.orderDate.date + '/' + item.orderDate.month + '/' + item.orderDate.year}</Text>
@@ -56,11 +56,10 @@ const PurchaseHistory = ({navigation}) => {
                     )
                 }}
             />
-            </View>
         </View>
     )
 }
 
-export default PurchaseHistory
+export default PurchaseHistory;
 
 const styles = StyleSheet.create({})

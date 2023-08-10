@@ -32,6 +32,8 @@ import Search from '../screens/Search';
 import ProductsScreen from '../screens/ProductsScreen';
 import PurchaseHistory from '../screens/PurchaseHistory';
 import OrderTracking from '../screens/OrderTracking';
+import Orders from '../screens/Orders';
+import EditProducts from '../screens/EditProducts';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -343,6 +345,24 @@ const ProfileStackNavigator = () => {
         component={PurchaseHistory}
         options={{
           title: 'Purchase History',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="Orders"
+        component={Orders}
+        options={{
+          title: 'Orders',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="EditProducts"
+        component={EditProducts}
+        options={{
+          title: 'Edit Products',
           headerLeft: () => null,
           headerTitleAlign: 'center',
         }}

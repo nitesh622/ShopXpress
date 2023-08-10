@@ -102,6 +102,7 @@ const ProfilePage = ({navigation}) => {
             </View>
           </View>
         </View>
+        
         <View style={[styles.userInfoSectionTwo, styles.backgroundStyle]}>
           <View style={styles.row}>
             <Text>
@@ -122,6 +123,7 @@ const ProfilePage = ({navigation}) => {
             <Text style={{marginLeft: 20}}>{userInfo.email}</Text>
           </View>
         </View>
+
         <Text
           style={{
             fontSize: 17,
@@ -133,6 +135,27 @@ const ProfilePage = ({navigation}) => {
           {' '}
           Click to become a Seller!
         </Text>
+
+        <View style={styles.infoBoxWrapper}>
+          <View
+            style={[
+              styles.infoBox,
+              {
+                borderRightColor: '#dddddd',
+                borderRightWidth: 1,
+              },
+            ]}>
+            <TouchableOpacity onPress={() => {navigation.navigate('Orders')}}>
+              <Text>Orders</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.infoBox}>
+            <TouchableOpacity onPress={() => {navigation.navigate('EditProducts');}}>
+              <Text>Edit Products</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        
         <View style={styles.infoBoxWrapper}>
           <View
             style={[
@@ -152,6 +175,7 @@ const ProfilePage = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
+
         <View>
           <View>
             <TouchableOpacity

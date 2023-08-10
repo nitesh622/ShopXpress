@@ -48,10 +48,8 @@ const OrderDetails = (props, ref) => {
     const getDatabase = async () => {
         try {
             const cartarr = props.items;
-
             let itemsarr = await getProducts(cartarr);
             setItems(itemsarr);
-            
         }
         catch(err) {
             console.log(err);
