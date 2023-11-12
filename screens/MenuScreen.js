@@ -1,4 +1,4 @@
-import { StyleSheet,ImageBackground,ScrollView,Text, View, Pressable, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet,ImageBackground,ScrollView,Text, View, Pressable, Image, TouchableOpacity, ToastAndroid } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -10,7 +10,8 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {SliderBox} from 'react-native-image-slider-box';
 import { Item } from 'react-native-paper/lib/typescript/src/components/Drawer/Drawer'
-import ReviewCard from './ReviewCard'
+import ReviewCard from './ReviewCard';
+import Star from 'react-native-star-view';
 
 const MenuScreen = ({navigation,route}) => {
   const item = route.params.item;
@@ -74,6 +75,7 @@ const MenuScreen = ({navigation,route}) => {
       .update({'cartItems': firestore.FieldValue.arrayUnion(newItem)});
 
       setIsAdded(true);
+      ToastAndroid.show('Product added to cart', ToastAndroid.BOTTOM);
     }
     catch(err) {
       console.log(err);
@@ -88,7 +90,13 @@ const MenuScreen = ({navigation,route}) => {
       .collection('users')
       .doc(currUser.uid)
       .update({'favourites': addFav ? firestore.FieldValue.arrayRemove(newItem) : firestore.FieldValue.arrayUnion(newItem)});
-
+      
+      if(addFav) {
+        ToastAndroid.show('Product removed from Favourites', ToastAndroid.BOTTOM);
+      }
+      else {
+        ToastAndroid.show('Product added to Favourites', ToastAndroid.BOTTOM);
+      }
       setAddFav(!addFav);
     }
     catch(err) {
@@ -117,60 +125,50 @@ const MenuScreen = ({navigation,route}) => {
           </SliderBox>
         </View>
 
-        <View style = {{padding: 10}}>
+        <View style = {{borderBottomWidth: 2, borderColor: '#E0E0E0', paddingVertical: 10}}>
           <Text style={styles.title}>{item.name}</Text>
-          <Text style ={styles.title}>{'₹' + item.price}</Text> 
-          <Text style={{marginBottom: 5}}>{'Sold By: ' + item.sellerName}</Text>
-          <View style={{height: 30, width: 150, borderWidth: 1}}>
-            <View style={{height: '100%', width: `${((item.rating/5)*100)}%`, backgroundColor: 'red', position: 'absolute'}}></View>
-            <View style={{height: '100%', width: '100%', flexDirection: 'row', justifyContent: 'space-around', backgroundColor: 'white'}}>
-              <Icon name='staro' size={30} style={{}} />
-              <Icon name='staro' size={30}/>
-              <Icon name='staro' size={30}/>
-              <Icon name='staro' size={30}/>
-              <Icon name='staro' size={30}/>
-            </View>
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{fontSize: 18, fontWeight: 'bold', marginRight: 5}}>{item.rating.toFixed(1)}</Text>
+            <Star score={item.rating} style={{height: 20, width: 100}}/>
+            <Text style={{marginLeft: 10, color: 'blue'}}>{item.totalReviews + ' reviews'}</Text>
           </View>
         </View>
 
-        <View style={{marginHorizontal: 10, marginVertical: 10, marginBottom: 30}}>
-          {
-            isAdded ? 
-            <Button 
-              theme={{ colors: { primary: '#E52B50' } }} 
-              rippleColor={'pink'} 
-              textColor='white' 
-              isAddedicon="cart" 
-              mode="contained" 
-              onPress={() => {navigation.navigate('CartNavigator')}}
-            >View Cart</Button>
-            :
-            <Button 
-              theme={{ colors: { primary: '#E52B50' } }} 
-              rippleColor={'pink'} 
-              textColor='white' 
-              isAddedicon="cart" 
-              mode="contained" 
-              onPress={() =>addToCart()}
-            >Add to cart</Button>
-          }
+        <View style={{borderBottomWidth: 2, borderColor: '#E0E0E0', paddingVertical: 10}}>
+          <Text style ={styles.title}>{'₹' + item.price}</Text> 
+          <View style = {{flexDirection: 'row'}}>
+            <Fontisto name = "motorcycle" size ={24} style = {{marginTop:8}}/>
+            <Text style ={{margin: 8, fontSize: 17, fontWeight: 'bold'}}>Free Delivery</Text>
+          </View>
+          <Text style = {{marginVertical: 5, fontSize: 17, fontWeight: 'bold'}}>{'Delivery in ' + item.deliveryTime.days + ' days, ' + (parseFloat(item.deliveryTime.hours)+parseFloat(item.deliveryTime.minutes/60)).toFixed(1) + ' hrs'}</Text>
+          <Text style={{marginVertical: 5, fontSize: 17, fontWeight: 'bold'}}>{'Sold By: ' + item.sellerName}</Text>
+          <View style={{marginVertical: 10}}>
+            {
+              isAdded ? 
+              <Button 
+                theme={{ colors: { primary: '#E52B50' } }} 
+                rippleColor={'pink'} 
+                textColor='white' 
+                isAddedicon="cart" 
+                mode="contained" 
+                onPress={() => {navigation.navigate('CartNavigator')}}
+              >View Cart</Button>
+              :
+              <Button 
+                theme={{ colors: { primary: '#E52B50' } }} 
+                rippleColor={'pink'} 
+                textColor='white' 
+                isAddedicon="cart"
+                mode="contained" 
+                onPress={() =>addToCart()}
+              >Add to cart</Button>
+            }
+          </View>
         </View>
-        <Text style={styles.subTitle}>{item.details}</Text>
-      </View>
-
-
-
-      <View style = {{marginLeft: 20, marginTop:10}}>
-        <Text style = {{fontSize:16, marginBottom: 7}}>Details:</Text>
-        <View style = {styles.descStyle}>
-          <MaterialCommunityIcons name="star-circle" size={24} color="green" />
-          <Text style = {{marginLeft: 3, fontSize: 15 ,fontWeight: '400'}}>{item.rating.toFixed(1)}</Text>
-          <Text style = {{marginLeft: 3, fontSize: 15 ,fontWeight: '400'}}>{'( ' + item.totalReviews + ' )'}</Text>
-        </View>
-        <Text style = {{marginLeft: 3, fontSize: 15 ,fontWeight: '400'}}>{item.deliveryTime.days + ' days, ' + (item.deliveryTime.hours+(item.deliveryTime.minutes/60)).toFixed(1) + ' hrs'}</Text>
-        <View style = {{flexDirection: 'row'}}>
-          <Fontisto name = "motorcycle" size ={24} style = {{marginTop:7}}/>
-          <Text style ={{marginTop:9, marginLeft: 10,marginBottom:25}}>Free Delivery</Text>
+        
+        <View style={{borderBottomWidth: 2, borderColor: '#E0E0E0', paddingVertical: 10}}>
+          <Text style={{fontSize: 26, fontWeight: 'bold', color: 'black'}}>{'Product Details:'}</Text>
+          <Text style={styles.subTitle}>{item.details}</Text>
         </View>
       </View>
 
@@ -230,13 +228,9 @@ const styles = StyleSheet.create({
     color:'black'
   },
   subTitle:{
-    fontSize:18,
+    fontSize:17,
     color:'black',
-    fontWeight:'400',
-    letterSpacing:1,
-    opacity:0.5,
     maxWidth:'95%',
-    marginBottom:18,
-    paddingHorizontal:8,
+    marginVertical: 10
   }
 })

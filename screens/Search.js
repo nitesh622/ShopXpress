@@ -25,7 +25,7 @@ const Search = ({navigation, route}) => {
         .collection('products')
         .doc(prodarr[i].productCategory)
         .collection('categoryProducts')
-        .doc(prodarr[i].productId).get();
+        .doc(prodarr[i].productId.toString()).get();
         prod.productName = res._data.name;
         prod.productPrice = res._data.price;
         prod.productRating = res._data.rating;

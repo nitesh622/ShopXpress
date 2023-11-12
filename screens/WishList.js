@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,FlatList, RefreshControl} from 'react-native'
+import { StyleSheet, Text, View,FlatList, RefreshControl, ToastAndroid} from 'react-native'
 import React, { useState } from 'react'
 import MenuItem from '../components/MenuItem';
 import CartListScreen from './CartListSceen';
@@ -66,6 +66,7 @@ const WishList = ({navigation}) => {
       if(event == 0 || newProd.quantity == 0) {
         getDatabase();
         setShowLoader(false);
+        ToastAndroid.show('Product deleted from Cart', ToastAndroid.BOTTOM);
         return;
       }
 
@@ -76,6 +77,13 @@ const WishList = ({navigation}) => {
 
       getDatabase();
       setShowLoader(false);
+
+      if(event == -1) {
+        ToastAndroid.show('Product removed from Cart', ToastAndroid.BOTTOM);
+      }
+      else if(event == 1) {
+        ToastAndroid.show('Product added to Cart', ToastAndroid.BOTTOM);
+      }
     }
     catch(err) {
       setShowLoader(false);
@@ -115,7 +123,12 @@ const WishList = ({navigation}) => {
       </View>
       <View style={{paddingLeft:30,paddingBottom:60}}>
       <TouchableOpacity style={styles.addToCart} onPress={()=>{
-        navigation.navigate('PaymentScreen', {items: items})
+        if(items.length == 0) {
+          ToastAndroid.show('Please add some Product to cart', ToastAndroid.BOTTOM);
+        }       
+        else {
+          navigation.navigate('PaymentScreen', {items: items})
+        }
       }}>
         <Text style={{color:'white',fontWeight:'700'}}>{"Proceed To CheckOut ->"}</Text>
      </TouchableOpacity>

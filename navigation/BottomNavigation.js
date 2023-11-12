@@ -34,6 +34,8 @@ import PurchaseHistory from '../screens/PurchaseHistory';
 import OrderTracking from '../screens/OrderTracking';
 import Orders from '../screens/Orders';
 import EditProducts from '../screens/EditProducts';
+import ManageScreen from '../screens/ManageScreen';
+import PriceRangeProducts from '../screens/PriceRangeProducts';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -167,9 +169,36 @@ const StackNavigation = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="PriceRangeProducts"
+        component={PriceRangeProducts}
+        options={({route}) => ({
+          title: route.params.title,
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        })}
+      />
+      <Stack.Screen
         name="MenuScreen"
         component={MenuScreen}
         options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="WriteReview"
+        component={WriteReview}
+        options={{
+          title: 'Write Review',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="ReviewPage"
+        component={ReviewPage}
+        options={{
+          title: 'Reviews',
+          headerLeft: () => null,
+          headerTitleAlign: 'center',
+        }}
       />
       <Stack.Screen
         name="Search"
@@ -320,6 +349,11 @@ const ProfileStackNavigator = () => {
       <Stack.Screen
         name="FormList"
         component={FormList}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ManageScreen"
+        component={ManageScreen}
         options={{headerShown: false}}
       />
       <Stack.Screen

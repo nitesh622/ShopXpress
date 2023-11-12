@@ -175,7 +175,6 @@ const PaymentScreen = ({navigation, route}) => {
     return (
         <View style={{flex: 1, marginBottom: 60}}>
             <StepsCheckBar selectedStep={selectedStep} paymentStatus={paymentStatus}/>
-
             <View style={{margin: 20, height: '75%'}}>
             {
                 selectedStep==1

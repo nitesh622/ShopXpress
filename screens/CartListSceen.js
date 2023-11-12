@@ -42,7 +42,7 @@ const CartListScreen = ({ item, handleChange }) => {
           </View>
           <View style={{ flexDirection: 'row' }}>
             <Fontisto name="clock" size={20} style={{ marginTop: 7 }} />
-            <Text style={{ marginTop: 5, marginLeft: 10, fontSize: 15,}}>{item.deliveryTime.days + ' days, ' + (item.deliveryTime.hours+(item.deliveryTime.minutes/60)).toFixed(1) + ' hrs'}</Text>
+            <Text style={{ marginTop: 5, marginLeft: 10, fontSize: 15,}}>{item.deliveryTime.days + ' days, ' + (parseFloat(item.deliveryTime.hours)+parseFloat(item.deliveryTime.minutes/60)).toFixed(1) + ' hrs'}</Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
             <Fontisto name="motorcycle" size={24} style={{ marginTop: 7 }} />

@@ -21,7 +21,7 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { OnboardingScreenNavigation } from '../navigation/BottomNavigation';
 import RNRestart from 'react-native-restart';
 
-const ProfilePage = ({navigation}) => {
+const ProfilePage = ({navigation, }) => {
   const [userInfo, setUserInfo] = useState(user);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -123,20 +123,24 @@ const ProfilePage = ({navigation}) => {
             <Text style={{marginLeft: 20}}>{userInfo.email}</Text>
           </View>
         </View>
+        
+        <View style={[styles.backgroundStyle, {marginHorizontal: 30, padding: 15}]}>
+          <Text
+            style={{
+              fontSize: 20,
+              marginBottom: 15,
+              fontWeight: '700',
+              color: 'black',
+            }}>
+            {' '}
+            Manage your Products!
+          </Text>
+          <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('ManageScreen', {userInfo: userInfo})}}> 
+            <Text style={{...styles.buttonTitle}}>Manage</Text>
+          </TouchableOpacity>
+        </View>
 
-        <Text
-          style={{
-            fontSize: 17,
-            marginLeft: 27,
-            marginBottom: 15,
-            fontWeight: '700',
-            color: 'black',
-          }}>
-          {' '}
-          Click to become a Seller!
-        </Text>
-
-        <View style={styles.infoBoxWrapper}>
+        {/* <View style={styles.infoBoxWrapper}>
           <View
             style={[
               styles.infoBox,
@@ -174,7 +178,7 @@ const ProfilePage = ({navigation}) => {
               <Text>Products List</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
 
         <View>
           <View>
@@ -233,7 +237,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 10,
-    marginBottom: 65,
+    marginBottom: 75,
   },
   userInfoSectionOne: {
     paddingHorizontal: 30,
@@ -290,6 +294,20 @@ const styles = StyleSheet.create({
   backgroundStyle: {
     backgroundColor: '#E5E4E2',
     borderRadius: 27,
+    padding: 10,
+  },
+  button: {
+    backgroundColor: '#E52B50',
+    width: '100%',
+    height: 48,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
     padding: 10,
   },
 });

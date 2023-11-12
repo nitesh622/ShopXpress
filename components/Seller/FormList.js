@@ -29,7 +29,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 const SellProductForm = ({navigation, route}) => {
   const [finalProduct, setFinalProduct] = useState(product);
   const [showLoader, setShowLoader] = useState(false);
-  console.log(finalProduct);
+  // console.log(finalProduct);
 
   const userData = route.params.userData;
 
@@ -110,8 +110,9 @@ const SellProductForm = ({navigation, route}) => {
       try {
         const currUser  = auth().currentUser;
         const res = await firestore().collection('products').doc(finalProduct.category).get();
-        finalProduct.id = res._data.totalProducts;
+        finalProduct.id = (res._data.totalProducts).toString();
         finalProduct.sellerid = currUser.uid;
+        finalProduct.sellerName = userData.name;
 
         let linkArray = await getLinks();
 

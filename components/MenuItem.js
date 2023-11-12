@@ -1,4 +1,4 @@
-import { ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native'
+import { ImageBackground, Pressable, StyleSheet, Text, View, ToastAndroid } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -15,7 +15,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const MenuItem = ({ item, navigation }) => {
   const [addFav, setAddFav] = useState(false);
-
+  // console.log((parseFloat(item.deliveryTime.hours)+parseFloat(item.deliveryTime.minutes/60)));
   useEffect(() => {getFav()}, []);
 
   const getFav = async () => {
@@ -46,7 +46,12 @@ const MenuItem = ({ item, navigation }) => {
       .collection('users')
       .doc(currUser.uid)
       .update({'favourites': addFav ? firestore.FieldValue.arrayRemove(newItem) : firestore.FieldValue.arrayUnion(newItem)});
-
+      if(addFav) {
+        ToastAndroid.show('Product removed from Favourites', ToastAndroid.BOTTOM);
+      }
+      else {
+        ToastAndroid.show('Product added to Favourites', ToastAndroid.BOTTOM);
+      }
       setAddFav(!addFav);
     }
     catch(err) {
@@ -90,7 +95,7 @@ const MenuItem = ({ item, navigation }) => {
           {/* <Text style={{ marginTop: 6 }}>{item.adress}</Text> */}
           <View style={{ flexDirection: 'row' }}>
             <Fontisto name="clock" size={20} style={{ marginTop: 7 }} />
-            <Text style={{ marginTop: 9, marginLeft: 10, fontSize: 15,}}>{item.deliveryTime.days + ' days, ' + (item.deliveryTime.hours+(item.deliveryTime.minutes/60)).toFixed(1) + ' hrs'}</Text>
+            <Text style={{ marginTop: 9, marginLeft: 10, fontSize: 15,}}>{item.deliveryTime.days + ' days, ' + (parseFloat(item.deliveryTime.hours)+parseFloat(item.deliveryTime.minutes/60)).toFixed(1) + ' hrs'}</Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
             <Fontisto name="motorcycle" size={24} style={{ marginTop: 7 }} />

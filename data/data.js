@@ -2,20 +2,20 @@ const data = [
     {
       id: 1,
       image: require('../assets/image1.png'),
-      title: 'Lorem Ipsum',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      title: 'Buy Sell anytime with one click',
+      text: 'Seamless one-click purchases for effortless shopping in your app',
     },
     {
       id: 2,
       image: require('../assets/image2.png'),
-      title: 'Lorem Ipsum',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      title: 'Community Discounts: \n Shop Local & Save Big',
+      text: 'Score incredible discounts from your local markets and boost your savings while bolstering neighborhood businesses.',
     },
     {
       id: 3,
       image: require('../assets/image3.png'),
-      title: 'Lorem Ipsum',
-      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      title: 'Seamless Transactions',
+      text: 'Experience effortless payments and transactions with our integrated payment system',
     },
   ];
   

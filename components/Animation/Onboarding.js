@@ -56,9 +56,10 @@ const Onboarding = () => {
       );
       return {
         opacity: opacityAnimation,
-        width: SCREEN_WIDTH * 0.8,
+        width: SCREEN_WIDTH,
         height: SCREEN_WIDTH * 0.8,
         transform: [{translateY: translateYAnimation}],
+        resizeMode: 'contain',
       };
     });
     const TextAnimationStyle = useAnimatedStyle(() => {
@@ -133,9 +134,6 @@ export default Onboarding;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
-    borderWidth: 2,
-    borderColor: 'black',
   },
   itemTitle: {
     color: 'black',
@@ -146,7 +144,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
   },
   itemText: {

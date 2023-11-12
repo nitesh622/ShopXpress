@@ -36,7 +36,7 @@ const ProductsScreen = ({navigation, route}) => {
                     .collection('products')
                     .doc(product.productCategory)
                     .collection('categoryProducts')
-                    .doc(product.productId).get();
+                    .doc((product.productId).toString()).get();
 
                     productsArray.push(res._data);
                 }

@@ -5,6 +5,8 @@ import {
   TextInput,
   ScrollView,
   Pressable,
+  TouchableOpacity,
+  Image
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -19,11 +21,14 @@ import firestore from '@react-native-firebase/firestore';
 const HomeScreen = ({navigation}) => {
 
   const [data, setData] = useState([]);
+  const [under99, setUnder99] = useState([]);
+  const [under499, setUnder499] = useState([]);
+  const [under999, setUnder999] = useState([]);
+  const [under4999, setUnder4999] = useState([]);
 
   const getProducts = async (arr) => {
     let finalarr = [];
-    let len = 3;
-    if(arr.length < len) len = arr.length;
+    let len = arr.length;
 
     for(let i=0; i<len; i++) {
       const res = await firestore()
@@ -53,7 +58,39 @@ const HomeScreen = ({navigation}) => {
         return b.rating - a.rating;
       })
 
-      setData(finalarr);
+      let len = 3;
+      if(finalarr.length < len) len = finalarr.length;
+      
+      let finalProductArr = [];
+      for(let i=0; i<len; i++) {
+        finalProductArr.push(finalarr[i]);
+      }
+
+      let arr1 = [];
+      let arr2 = [];
+      let arr3 = [];
+      let arr4 = [];
+
+      for(let i=0; i<finalarr.length; i++) {
+        if(finalarr[i].price < 100) {
+          arr1.push(finalarr[i]);
+        }
+        else if(finalarr[i].price < 500) {
+          arr2.push(finalarr[i]);
+        }
+        else if(finalarr[i].price < 1000) {
+          arr3.push(finalarr[i]);
+        }
+        else if(finalarr[i].price < 5000) {
+          arr4.push(finalarr[i]);
+        }
+      }
+      
+      setUnder99(arr1);
+      setUnder499(arr2);
+      setUnder999(arr3);
+      setUnder4999(arr4);
+      setData(finalProductArr);
     }
     catch(err) {
       console.log(err);
@@ -86,9 +123,25 @@ const HomeScreen = ({navigation}) => {
       </View>
       <View style= {{marginBottom:80, marginTop: 30}}>
         <Text style = {styles.offerTextStyle}>Price Ranges!</Text>
-      <OfferList title ={"Below ₹ 99"} Secondtitle = {"₹ 100 to ₹ 199"}/>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', margin: 15}}>
+          <TouchableOpacity style={{width: '48%'}} onPress={() => {navigation.navigate('PriceRangeProducts', {productsData: under99, title: "Products Under ₹99"})}}>
+            <Image source={require('../assets/under99.jpg')} style={{height: 100, width: '100%', borderRadius: 15}}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={{width: '48%'}} onPress={() => {navigation.navigate('PriceRangeProducts', {productsData: under499, title: "Products Under ₹499"})}}>
+            <Image source={require('../assets/under499.jpg')} style={{height: 100, width: '100%', borderRadius: 15}}/>
+          </TouchableOpacity>
+        </View>
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15}}>
+          <TouchableOpacity style={{width: '48%'}} onPress={() => {navigation.navigate('PriceRangeProducts', {productsData: under999, title: "Products Under ₹999"})}}>
+            <Image source={require('../assets/under999.jpg')} style={{height: 100, width: '100%', borderRadius: 15}}/>
+          </TouchableOpacity>
+          <TouchableOpacity style={{width: '48%'}} onPress={() => {navigation.navigate('PriceRangeProducts', {productsData: under4999, title: "Products Under ₹4999"})}}>
+            <Image source={require('../assets/under4999.jpg')} style={{height: 100, width: '100%', borderRadius: 15}}/>
+          </TouchableOpacity>
+        </View>
+      {/* <OfferList title ={"Below ₹ 99"} Secondtitle = {"₹ 100 to ₹ 199"}/>
       <OfferList title ={"₹ 100 to ₹ 199"} Secondtitle = {"₹ 100 to ₹ 199"}/>
-      <OfferList title ={"₹ 100 to ₹ 199"} Secondtitle = {"Above ₹ 1000"}/>
+      <OfferList title ={"₹ 100 to ₹ 199"} Secondtitle = {"Above ₹ 1000"}/> */}
       </View>
     </ScrollView>
   );
@@ -141,7 +194,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
     fontSize: 20,
     fontWeight: '900',
-    color: 'black'
+    color: 'black',
   },
   myStyle:{
     color:'#E52B50',

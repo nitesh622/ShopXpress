@@ -16,7 +16,6 @@ const CategoriesItemsList = ({navigation, route}) => {
 
   const getDatabase = async () => {
     try {
-      console.log(category);
       const res = await firestore().collection('products').doc(category).get();
       const n = res._data.totalProducts;
       let arr = await getProducts(n);
