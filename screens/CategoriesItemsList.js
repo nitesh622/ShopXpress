@@ -54,6 +54,7 @@ const CategoriesItemsList = ({navigation, route}) => {
           }
           data={data}
           renderItem={({item, key})=>{
+              if(item == undefined) return;
               return (
                 <MenuItem key={key} item={item} navigation={navigation}/>
               )
@@ -71,5 +72,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#DDE6ED',
     paddingHorizontal: 10,
+    paddingBottom: 75,
   },
 });

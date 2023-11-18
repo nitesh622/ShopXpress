@@ -121,7 +121,7 @@ const SellProductForm = ({navigation, route}) => {
         await firestore()
         .collection('products')
         .doc(finalProduct.category)
-        .update({'totalProducts': finalProduct.id+1});
+        .update({'totalProducts': res._data.totalProducts+1});
         
         await firestore()
         .collection('products')

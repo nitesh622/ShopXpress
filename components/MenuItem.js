@@ -15,6 +15,7 @@ import firestore from '@react-native-firebase/firestore';
 
 const MenuItem = ({ item, navigation }) => {
   const [addFav, setAddFav] = useState(false);
+  // console.log(item);
   // console.log((parseFloat(item.deliveryTime.hours)+parseFloat(item.deliveryTime.minutes/60)));
   useEffect(() => {getFav()}, []);
 
